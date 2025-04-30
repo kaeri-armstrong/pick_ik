@@ -1,7 +1,7 @@
-#include <pick_ik/fk_moveit.hpp>
-#include <pick_ik/goal.hpp>
-#include <pick_ik/ik_gradient.hpp>
-#include <pick_ik/robot.hpp>
+#include <armstrong_pick_ik/fk_moveit.hpp>
+#include <armstrong_pick_ik/goal.hpp>
+#include <armstrong_pick_ik/ik_gradient.hpp>
+#include <armstrong_pick_ik/robot.hpp>
 
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
@@ -51,10 +51,10 @@ TEST_CASE("RR model FK") {
     auto const robot_model = make_rr_model_for_ik();
 
     auto const jmg = robot_model->getJointModelGroup("group");
-    auto const tip_link_indices = pick_ik::get_link_indices(robot_model, {"ee"}).value();
+    auto const tip_link_indices = armstrong_pick_ik::get_link_indices(robot_model, {"ee"}).value();
 
     std::mutex mx;
-    auto const fk_fn = pick_ik::make_fk_fn(robot_model, jmg, mx, tip_link_indices);
+    auto const fk_fn = armstrong_pick_ik::make_fk_fn(robot_model, jmg, mx, tip_link_indices);
 
     SECTION("Zero joint position") {
         std::vector<double> const joint_vals = {0.0, 0.0};
@@ -82,7 +82,7 @@ struct IkTestParams {
     double position_scale = 1.0;
     double rotation_scale = 1.0;
     bool return_approximate_solution = false;
-    pick_ik::GradientIkParams gd_params;
+    armstrong_pick_ik::GradientIkParams gd_params;
 };
 
 auto solve_ik_test(moveit::core::RobotModelPtr robot_model,
@@ -94,9 +94,9 @@ auto solve_ik_test(moveit::core::RobotModelPtr robot_model,
     -> std::optional<std::vector<double>> {
     // Make forward kinematics function
     auto const jmg = robot_model->getJointModelGroup(group_name);
-    auto const tip_link_indices = pick_ik::get_link_indices(robot_model, {goal_frame_name}).value();
+    auto const tip_link_indices = armstrong_pick_ik::get_link_indices(robot_model, {goal_frame_name}).value();
     std::mutex mx;
-    auto const fk_fn = pick_ik::make_fk_fn(robot_model, jmg, mx, tip_link_indices);
+    auto const fk_fn = armstrong_pick_ik::make_fk_fn(robot_model, jmg, mx, tip_link_indices);
 
     // Make solution function
     auto const test_position = (params.position_scale > 0);
@@ -110,23 +110,23 @@ auto solve_ik_test(moveit::core::RobotModelPtr robot_model,
         orientation_threshold = params.orientation_threshold;
     }
     auto const frame_tests =
-        pick_ik::make_frame_tests({goal_frame}, position_threshold, orientation_threshold);
+        armstrong_pick_ik::make_frame_tests({goal_frame}, position_threshold, orientation_threshold);
     auto const cost_function =
         kinematics::KinematicsBase::IKCostFn();  // What should be instantiated here?
-    std::vector<pick_ik::Goal> goals = {};       // TODO: Only works if empty.
+    std::vector<armstrong_pick_ik::Goal> goals = {};       // TODO: Only works if empty.
     auto const solution_fn =
-        pick_ik::make_is_solution_test_fn(frame_tests, goals, params.cost_threshold, fk_fn);
+        armstrong_pick_ik::make_is_solution_test_fn(frame_tests, goals, params.cost_threshold, fk_fn);
 
     // Make pose cost function
-    auto const pose_cost_functions = pick_ik::make_pose_cost_functions({goal_frame},
+    auto const pose_cost_functions = armstrong_pick_ik::make_pose_cost_functions({goal_frame},
                                                                        params.position_scale,
                                                                        params.rotation_scale);
     CHECK(pose_cost_functions.size() == 1);
 
     // Solve IK
-    auto const robot = pick_ik::Robot::from(robot_model, jmg, tip_link_indices);
-    auto const cost_fn = pick_ik::make_cost_fn(pose_cost_functions, goals, fk_fn);
-    return pick_ik::ik_gradient(initial_guess,
+    auto const robot = armstrong_pick_ik::Robot::from(robot_model, jmg, tip_link_indices);
+    auto const cost_fn = armstrong_pick_ik::make_cost_fn(pose_cost_functions, goals, fk_fn);
+    return armstrong_pick_ik::ik_gradient(initial_guess,
                                 robot,
                                 cost_fn,
                                 solution_fn,
@@ -242,9 +242,9 @@ TEST_CASE("Panda model IK") {
     auto const robot_model = loadTestingRobotModel("panda");
 
     auto const jmg = robot_model->getJointModelGroup("panda_arm");
-    auto const tip_link_indices = pick_ik::get_link_indices(robot_model, {"panda_hand"}).value();
+    auto const tip_link_indices = armstrong_pick_ik::get_link_indices(robot_model, {"panda_hand"}).value();
     std::mutex mx;
-    auto const fk_fn = pick_ik::make_fk_fn(robot_model, jmg, mx, tip_link_indices);
+    auto const fk_fn = armstrong_pick_ik::make_fk_fn(robot_model, jmg, mx, tip_link_indices);
 
     std::vector<double> const home_joint_angles =
         {0.0, -M_PI_4, 0.0, -3.0 * M_PI_4, 0.0, M_PI_2, M_PI_4};

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <pick_ik/goal.hpp>
-#include <pick_ik/robot.hpp>
+#include <armstrong_pick_ik/goal.hpp>
+#include <armstrong_pick_ik/robot.hpp>
 
 #include <chrono>
 #include <memory>
@@ -10,7 +10,7 @@
 #include <optional>
 #include <vector>
 
-namespace pick_ik {
+namespace armstrong_pick_ik {
 
 struct GradientIkParams {
     double step_size = 0.0001;        // Step size for gradient descent.
@@ -48,4 +48,4 @@ auto ik_gradient(std::vector<double> const& initial_guess,
                  GradientIkParams const& params,
                  bool approx_solution) -> std::optional<std::vector<double>>;
 
-}  // namespace pick_ik
+}  // namespace armstrong_pick_ik

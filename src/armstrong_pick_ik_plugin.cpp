@@ -1,10 +1,10 @@
-#include <pick_ik/fk_moveit.hpp>
-#include <pick_ik/goal.hpp>
-#include <pick_ik/ik_gradient.hpp>
-#include <pick_ik/ik_memetic.hpp>
-#include <pick_ik/pick_ik_plugin.hpp>
+#include <armstrong_pick_ik/fk_moveit.hpp>
+#include <armstrong_pick_ik/goal.hpp>
+#include <armstrong_pick_ik/ik_gradient.hpp>
+#include <armstrong_pick_ik/ik_memetic.hpp>
+#include <armstrong_pick_ik/armstrong_pick_ik_plugin.hpp>
 
-#include <pick_ik_parameters.hpp>
+#include <armstrong_pick_ik_parameters.hpp>
 #include <pluginlib/class_list_macros.hpp>
 #include <rclcpp/rclcpp.hpp>
 
@@ -14,9 +14,9 @@
 #include <string>
 #include <vector>
 
-namespace pick_ik {
+namespace armstrong_pick_ik {
 namespace {
-auto const LOGGER = rclcpp::get_logger("pick_ik");
+auto const LOGGER = rclcpp::get_logger("armstrong_pick_ik");
 }
 
 bool PickIKPlugin::initialize(rclcpp::Node::SharedPtr const& node,
@@ -400,6 +400,6 @@ bool PickIKPlugin::searchPositionIK(std::vector<geometry_msgs::msg::Pose> const&
                             context_state);
 }
 
-}  // namespace pick_ik
+}  // namespace armstrong_pick_ik
 
-PLUGINLIB_EXPORT_CLASS(pick_ik::PickIKPlugin, kinematics::KinematicsBase);
+PLUGINLIB_EXPORT_CLASS(armstrong_pick_ik::PickIKPlugin, kinematics::KinematicsBase);

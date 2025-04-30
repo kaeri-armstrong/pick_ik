@@ -32,4 +32,4 @@ jobs:
           file: .devcontainer/Dockerfile
           push: true
           target: ci
-          tags: ghcr.io/picknikrobotics/pick_ik:ci
+          tags: ghcr.io/picknikrobotics/armstrong_pick_ik:ci

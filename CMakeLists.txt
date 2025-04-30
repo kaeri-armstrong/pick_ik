@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(pick_ik)
+project(armstrong_pick_ik)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
     add_compile_options(-Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
@@ -20,23 +20,23 @@ find_package(tf2_kdl REQUIRED)
 find_package(tl_expected REQUIRED)
 
 generate_parameter_library(
-  pick_ik_parameters
-  src/pick_ik_parameters.yaml
+  armstrong_pick_ik_parameters
+  src/armstrong_pick_ik_parameters.yaml
 )
-add_library(pick_ik_plugin SHARED
+add_library(armstrong_pick_ik_plugin SHARED
   src/fk_moveit.cpp
   src/forward_kinematics.cpp
-  src/pick_ik_plugin.cpp
+  src/armstrong_pick_ik_plugin.cpp
   src/goal.cpp
   src/ik_memetic.cpp
   src/ik_gradient.cpp
   src/robot.cpp
 )
-target_compile_features(pick_ik_plugin PUBLIC c_std_99 cxx_std_17)
-target_include_directories(pick_ik_plugin PUBLIC
+target_compile_features(armstrong_pick_ik_plugin PUBLIC c_std_99 cxx_std_17)
+target_include_directories(armstrong_pick_ik_plugin PUBLIC
   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include/pick_ik>)
-target_link_libraries(pick_ik_plugin
+  $<INSTALL_INTERFACE:include/armstrong_pick_ik>)
+target_link_libraries(armstrong_pick_ik_plugin
   PUBLIC
     moveit_core::moveit_robot_model
     tf2_geometry_msgs::tf2_geometry_msgs
@@ -45,7 +45,7 @@ target_link_libraries(pick_ik_plugin
     rsl::rsl
   PRIVATE
     fmt::fmt
-    pick_ik_parameters
+    armstrong_pick_ik_parameters
     moveit_core::moveit_kinematics_base
     moveit_core::moveit_robot_state
     pluginlib::pluginlib
@@ -55,7 +55,7 @@ target_link_libraries(pick_ik_plugin
 
 pluginlib_export_plugin_description_file(
   moveit_core
-  pick_ik_kinematics_description.xml
+  armstrong_pick_ik_kinematics_description.xml
 )
 
 if(BUILD_TESTING)
@@ -64,17 +64,17 @@ endif()
 
 install(
   DIRECTORY include/
-  DESTINATION include/pick_ik
+  DESTINATION include/armstrong_pick_ik
 )
 install(
-  TARGETS pick_ik_plugin pick_ik_parameters
-  EXPORT export_pick_ik
+  TARGETS armstrong_pick_ik_plugin armstrong_pick_ik_parameters
+  EXPORT export_armstrong_pick_ik
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
 )
 
-ament_export_targets(export_pick_ik HAS_LIBRARY_TARGET)
+ament_export_targets(export_armstrong_pick_ik HAS_LIBRARY_TARGET)
 ament_export_dependencies(
   fmt
   moveit_core

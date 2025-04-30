@@ -1,6 +1,6 @@
-#include <pick_ik/fk_moveit.hpp>
-#include <pick_ik/goal.hpp>
-#include <pick_ik/robot.hpp>
+#include <armstrong_pick_ik/fk_moveit.hpp>
+#include <armstrong_pick_ik/goal.hpp>
+#include <armstrong_pick_ik/robot.hpp>
 
 #include <algorithm>
 #include <cmath>
@@ -12,7 +12,7 @@
 #include <optional>
 #include <vector>
 
-namespace pick_ik {
+namespace armstrong_pick_ik {
 
 double linear_distance(Eigen::Isometry3d const& frame_1, Eigen::Isometry3d const& frame_2) {
     return (frame_1.translation() - frame_2.translation()).norm();
@@ -202,4 +202,4 @@ auto make_cost_fn(std::vector<PoseCostFn> pose_cost_functions, std::vector<Goal>
     };
 }
 
-}  // namespace pick_ik
+}  // namespace armstrong_pick_ik

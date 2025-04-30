@@ -1,0 +1,4 @@
+<library path="armstrong_pick_ik_plugin">
+    <class name="armstrong_pick_ik/PickIkPlugin" type="armstrong_pick_ik::PickIKPlugin" base_class_type="kinematics::KinematicsBase">
+    </class>
+</library>

@@ -8,7 +8,7 @@
 #include <mutex>
 #include <vector>
 
-namespace pick_ik {
+namespace armstrong_pick_ik {
 
 using FkFn = std::function<std::vector<Eigen::Isometry3d>(std::vector<double> const&)>;
 
@@ -17,4 +17,4 @@ auto make_fk_fn(std::shared_ptr<moveit::core::RobotModel const> robot_model,
                 std::mutex& mx,
                 std::vector<size_t> tip_link_indices) -> FkFn;
 
-}  // namespace pick_ik
+}  // namespace armstrong_pick_ik

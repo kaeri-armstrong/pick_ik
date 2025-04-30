@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-namespace pick_ik {
+namespace armstrong_pick_ik {
 
 struct Robot {
     struct Variable {
@@ -71,4 +71,4 @@ auto transform_poses_to_frames(moveit::core::RobotState const& robot_state,
                                std::string const& base_frame_name)
     -> std::vector<Eigen::Isometry3d>;
 
-}  // namespace pick_ik
+}  // namespace armstrong_pick_ik

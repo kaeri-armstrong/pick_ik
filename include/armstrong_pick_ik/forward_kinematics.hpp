@@ -6,7 +6,7 @@
 #include <tf2/LinearMath/Vector3.h>
 #include <vector>
 
-namespace pick_ik {
+namespace armstrong_pick_ik {
 
 auto make_joint_axes(std::shared_ptr<moveit::core::RobotModel const> const& model)
     -> std::vector<tf2::Vector3>;
@@ -35,4 +35,4 @@ auto get_frame(CachedJointFrames& cache,
                std::vector<double> const& variables,
                std::vector<tf2::Vector3> const& joint_axes) -> Eigen::Isometry3d;
 
-}  // namespace pick_ik
+}  // namespace armstrong_pick_ik

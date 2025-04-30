@@ -1,4 +1,4 @@
-#include <pick_ik/fk_moveit.hpp>
+#include <armstrong_pick_ik/fk_moveit.hpp>
 
 #include <algorithm>
 #include <memory>
@@ -6,7 +6,7 @@
 #include <moveit/robot_state/robot_state.h>
 #include <vector>
 
-namespace pick_ik {
+namespace armstrong_pick_ik {
 
 auto make_fk_fn(std::shared_ptr<moveit::core::RobotModel const> robot_model,
                 moveit::core::JointModelGroup const* jmg,
@@ -34,4 +34,4 @@ auto make_fk_fn(std::shared_ptr<moveit::core::RobotModel const> robot_model,
     };
 }
 
-}  // namespace pick_ik
+}  // namespace armstrong_pick_ik

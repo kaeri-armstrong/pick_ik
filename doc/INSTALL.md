@@ -1,8 +1,8 @@
-# pick_ik : Installation
+# armstrong_pick_ik : Installation
 
 ## Install from binaries
 
-You can install the latest release of `pick_ik` from binaries using:
+You can install the latest release of `armstrong_pick_ik` from binaries using:
 
 ```
 sudo apt install ros-${ROS_DISTRO}-pick-ik
@@ -25,7 +25,7 @@ mkdir -p $COLCON_WS/src
 
 ```shell
 cd $COLCON_WS/src
-git clone -b main https://github.com/PickNikRobotics/pick_ik.git
+git clone -b main https://github.com/PickNikRobotics/armstrong_pick_ik.git
 ```
 
 3. Set up colcon mixins.
@@ -64,8 +64,8 @@ newgrp docker
 2. Run these commands to create a directory to mount for ccache and another to mount for the ros directory containing log files.
 
 ```bash
-mkdir -p ~/.local/.pick_ik/ccache
-mkdir -p ~/.local/.pick_ik/ros
+mkdir -p ~/.local/.armstrong_pick_ik/ccache
+mkdir -p ~/.local/.armstrong_pick_ik/ros
 ```
 
 3. Open the project in VSCode and follow the prompts to open the project in a Dev Container.

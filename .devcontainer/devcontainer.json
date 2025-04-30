@@ -7,7 +7,7 @@
 		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
 	},
 	"service": "devcontainer",
-	"workspaceFolder": "/home/dev/pick_ik",
+	"workspaceFolder": "/home/dev/armstrong_pick_ik",
 	"remoteUser": "dev",
 	"customizations": {
 		"vscode": {

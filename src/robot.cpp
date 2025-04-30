@@ -1,4 +1,4 @@
-#include <pick_ik/robot.hpp>
+#include <armstrong_pick_ik/robot.hpp>
 
 #include <rsl/random.hpp>
 #include <tf2_eigen/tf2_eigen.hpp>
@@ -18,7 +18,7 @@ constexpr double kUnboundedVariableHalfSpan = M_PI;
 constexpr double kUnboundedJointSampleSpread = M_PI;
 }  // namespace
 
-namespace pick_ik {
+namespace armstrong_pick_ik {
 
 auto Robot::Variable::generate_valid_value(double init_val /* = 0.0*/) const -> double {
     if (bounded) {
@@ -180,4 +180,4 @@ auto transform_poses_to_frames(moveit::core::RobotState const& robot_state,
     return frames;
 }
 
-}  // namespace pick_ik
+}  // namespace armstrong_pick_ik

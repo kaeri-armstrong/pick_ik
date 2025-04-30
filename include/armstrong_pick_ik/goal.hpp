@@ -1,7 +1,7 @@
 #pragma once
 
-#include <pick_ik/fk_moveit.hpp>
-#include <pick_ik/robot.hpp>
+#include <armstrong_pick_ik/fk_moveit.hpp>
+#include <armstrong_pick_ik/robot.hpp>
 
 #include <Eigen/Geometry>
 #include <functional>
@@ -11,7 +11,7 @@
 #include <string>
 #include <vector>
 
-namespace pick_ik {
+namespace armstrong_pick_ik {
 
 // Frame equality tests
 using FrameTestFn = std::function<bool(Eigen::Isometry3d const& tip_frame)>;
@@ -64,4 +64,4 @@ using CostFn = std::function<double(std::vector<double> const& active_positions)
 auto make_cost_fn(std::vector<PoseCostFn> pose_cost_functions, std::vector<Goal> goals, FkFn fk)
     -> CostFn;
 
-}  // namespace pick_ik
+}  // namespace armstrong_pick_ik

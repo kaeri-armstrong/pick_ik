@@ -1,8 +1,8 @@
-#include <pick_ik/fk_moveit.hpp>
-#include <pick_ik/goal.hpp>
-#include <pick_ik/ik_gradient.hpp>
-#include <pick_ik/ik_memetic.hpp>
-#include <pick_ik/robot.hpp>
+#include <armstrong_pick_ik/fk_moveit.hpp>
+#include <armstrong_pick_ik/goal.hpp>
+#include <armstrong_pick_ik/ik_gradient.hpp>
+#include <armstrong_pick_ik/ik_memetic.hpp>
+#include <armstrong_pick_ik/robot.hpp>
 
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
@@ -24,7 +24,7 @@ struct MemeticIkTestParams {
     // Solve options
     bool approximate_solution = false;
     bool print_debug = false;
-    pick_ik::MemeticIkParams memetic_params;
+    armstrong_pick_ik::MemeticIkParams memetic_params;
 
     // Additional costs
     double center_joints_weight = 0.0;
@@ -41,33 +41,33 @@ auto solve_memetic_ik_test(moveit::core::RobotModelPtr robot_model,
     -> std::optional<std::vector<double>> {
     // Make forward kinematics function
     auto const jmg = robot_model->getJointModelGroup(group_name);
-    auto const tip_link_indices = pick_ik::get_link_indices(robot_model, {goal_frame_name}).value();
+    auto const tip_link_indices = armstrong_pick_ik::get_link_indices(robot_model, {goal_frame_name}).value();
     std::mutex mx;
-    auto const fk_fn = pick_ik::make_fk_fn(robot_model, jmg, mx, tip_link_indices);
-    auto const robot = pick_ik::Robot::from(robot_model, jmg, tip_link_indices);
+    auto const fk_fn = armstrong_pick_ik::make_fk_fn(robot_model, jmg, mx, tip_link_indices);
+    auto const robot = armstrong_pick_ik::Robot::from(robot_model, jmg, tip_link_indices);
 
     // Make goal function(s)
-    std::vector<pick_ik::Goal> goals = {};
+    std::vector<armstrong_pick_ik::Goal> goals = {};
     if (params.center_joints_weight > 0) {
         goals.push_back(
-            pick_ik::Goal{pick_ik::make_center_joints_cost_fn(robot), params.center_joints_weight});
+            armstrong_pick_ik::Goal{armstrong_pick_ik::make_center_joints_cost_fn(robot), params.center_joints_weight});
     }
     if (params.avoid_joint_limits_weight > 0) {
-        goals.push_back(pick_ik::Goal{pick_ik::make_avoid_joint_limits_cost_fn(robot),
+        goals.push_back(armstrong_pick_ik::Goal{armstrong_pick_ik::make_avoid_joint_limits_cost_fn(robot),
                                       params.center_joints_weight});
     }
     if (params.minimal_displacement_weight > 0) {
         goals.push_back(
-            pick_ik::Goal{pick_ik::make_minimal_displacement_cost_fn(robot, initial_guess),
+            armstrong_pick_ik::Goal{armstrong_pick_ik::make_minimal_displacement_cost_fn(robot, initial_guess),
                           params.center_joints_weight});
     }
 
     // Make pose cost function
-    auto const pose_cost_functions = pick_ik::make_pose_cost_functions({goal_frame},
+    auto const pose_cost_functions = armstrong_pick_ik::make_pose_cost_functions({goal_frame},
                                                                        params.position_scale,
                                                                        params.rotation_scale);
     CHECK(pose_cost_functions.size() == 1);
-    auto const cost_fn = pick_ik::make_cost_fn(pose_cost_functions, goals, fk_fn);
+    auto const cost_fn = armstrong_pick_ik::make_cost_fn(pose_cost_functions, goals, fk_fn);
 
     // Make solution function
     auto const test_position = (params.position_scale > 0);
@@ -81,12 +81,12 @@ auto solve_memetic_ik_test(moveit::core::RobotModelPtr robot_model,
         orientation_threshold = params.orientation_threshold;
     }
     auto const frame_tests =
-        pick_ik::make_frame_tests({goal_frame}, position_threshold, orientation_threshold);
+        armstrong_pick_ik::make_frame_tests({goal_frame}, position_threshold, orientation_threshold);
     auto const solution_fn =
-        pick_ik::make_is_solution_test_fn(frame_tests, goals, params.cost_threshold, fk_fn);
+        armstrong_pick_ik::make_is_solution_test_fn(frame_tests, goals, params.cost_threshold, fk_fn);
 
     // Solve memetic IK
-    return pick_ik::ik_memetic(initial_guess,
+    return armstrong_pick_ik::ik_memetic(initial_guess,
                                robot,
                                cost_fn,
                                solution_fn,
@@ -100,9 +100,9 @@ TEST_CASE("Panda model Memetic IK") {
     auto const robot_model = loadTestingRobotModel("panda");
 
     auto const jmg = robot_model->getJointModelGroup("panda_arm");
-    auto const tip_link_indices = pick_ik::get_link_indices(robot_model, {"panda_hand"}).value();
+    auto const tip_link_indices = armstrong_pick_ik::get_link_indices(robot_model, {"panda_hand"}).value();
     std::mutex mx;
-    auto const fk_fn = pick_ik::make_fk_fn(robot_model, jmg, mx, tip_link_indices);
+    auto const fk_fn = armstrong_pick_ik::make_fk_fn(robot_model, jmg, mx, tip_link_indices);
 
     std::vector<double> const home_joint_angles =
         {0.0, -M_PI_4, 0.0, -3.0 * M_PI_4, 0.0, M_PI_2, M_PI_4};

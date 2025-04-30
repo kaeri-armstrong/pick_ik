@@ -1,4 +1,4 @@
-pick_ik:
+armstrong_pick_ik:
   # Overall solver settings
   mode: {
     type: string,

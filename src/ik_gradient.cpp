@@ -1,6 +1,6 @@
-#include <pick_ik/goal.hpp>
-#include <pick_ik/ik_gradient.hpp>
-#include <pick_ik/robot.hpp>
+#include <armstrong_pick_ik/goal.hpp>
+#include <armstrong_pick_ik/ik_gradient.hpp>
+#include <armstrong_pick_ik/robot.hpp>
 
 #include <algorithm>
 #include <chrono>
@@ -9,7 +9,7 @@
 #include <optional>
 #include <vector>
 
-namespace pick_ik {
+namespace armstrong_pick_ik {
 
 GradientIk GradientIk::from(std::vector<double> const& initial_guess, CostFn const& cost_fn) {
     auto const initial_cost = cost_fn(initial_guess);
@@ -138,4 +138,4 @@ auto ik_gradient(std::vector<double> const& initial_guess,
     return std::nullopt;
 }
 
-}  // namespace pick_ik
+}  // namespace armstrong_pick_ik

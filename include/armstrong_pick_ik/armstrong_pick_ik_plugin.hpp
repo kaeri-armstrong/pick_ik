@@ -1,10 +1,10 @@
 #pragma once
 
-#include <pick_ik/robot.hpp>
+#include <armstrong_pick_ik/robot.hpp>
 
 #include <moveit/kinematics_base/kinematics_base.h>
 
-namespace pick_ik {
+namespace armstrong_pick_ik {
 
 class ParamListener;
 
@@ -102,4 +102,4 @@ class PickIKPlugin : public kinematics::KinematicsBase {
         moveit::core::RobotState const* context_state = NULL) const;
 };
 
-}  // namespace pick_ik
+}  // namespace armstrong_pick_ik

@@ -1,4 +1,4 @@
-#include <pick_ik/forward_kinematics.hpp>
+#include <armstrong_pick_ik/forward_kinematics.hpp>
 
 #include <algorithm>
 #include <cassert>
@@ -8,7 +8,7 @@
 #include <tf2/LinearMath/Vector3.h>
 #include <vector>
 
-namespace pick_ik {
+namespace armstrong_pick_ik {
 
 auto make_joint_axes(std::shared_ptr<moveit::core::RobotModel const> const& model)
     -> std::vector<tf2::Vector3> {
@@ -124,4 +124,4 @@ auto get_frame(CachedJointFrames& cache,
     return cache.frames.at(index);
 }
 
-}  // namespace pick_ik
+}  // namespace armstrong_pick_ik

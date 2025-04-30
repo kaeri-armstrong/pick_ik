@@ -1,8 +1,8 @@
 #pragma once
 
-#include <pick_ik/goal.hpp>
-#include <pick_ik/ik_gradient.hpp>
-#include <pick_ik/robot.hpp>
+#include <armstrong_pick_ik/goal.hpp>
+#include <armstrong_pick_ik/ik_gradient.hpp>
+#include <armstrong_pick_ik/robot.hpp>
 
 #include <rsl/random.hpp>
 
@@ -14,7 +14,7 @@
 #include <optional>
 #include <vector>
 
-namespace pick_ik {
+namespace armstrong_pick_ik {
 
 struct Individual {
     std::vector<double> genes;  // Joint angles
@@ -103,4 +103,4 @@ auto ik_memetic(std::vector<double> const& initial_guess,
                 bool approx_solution = false,
                 bool print_debug = false) -> std::optional<std::vector<double>>;
 
-}  // namespace pick_ik
+}  // namespace armstrong_pick_ik

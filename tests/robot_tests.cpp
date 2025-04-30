@@ -1,4 +1,4 @@
-#include <pick_ik/robot.hpp>
+#include <armstrong_pick_ik/robot.hpp>
 
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
@@ -37,25 +37,25 @@ auto make_rr_model() {
     return builder.build();
 }
 
-TEST_CASE("pick_ik::get_link_indices") {
+TEST_CASE("armstrong_pick_ik::get_link_indices") {
     auto const robot_model = make_rr_model();
 
     SECTION("second link") {
-        auto const tip_link_indices = pick_ik::get_link_indices(robot_model, {"b"});
+        auto const tip_link_indices = armstrong_pick_ik::get_link_indices(robot_model, {"b"});
         REQUIRE(tip_link_indices.has_value());
         CHECK(tip_link_indices->size() == 1);
         CHECK(tip_link_indices->at(0) == 2);
     }
 
     SECTION("end effector link") {
-        auto const tip_link_indices = pick_ik::get_link_indices(robot_model, {"ee"});
+        auto const tip_link_indices = armstrong_pick_ik::get_link_indices(robot_model, {"ee"});
         REQUIRE(tip_link_indices.has_value());
         CHECK(tip_link_indices->size() == 1);
         CHECK(tip_link_indices->at(0) == 3);
     }
 
     SECTION("multiple links") {
-        auto const tip_link_indices = pick_ik::get_link_indices(robot_model, {"a", "b", "ee"});
+        auto const tip_link_indices = armstrong_pick_ik::get_link_indices(robot_model, {"a", "b", "ee"});
         REQUIRE(tip_link_indices.has_value());
         CHECK(tip_link_indices->size() == 3);
         CHECK(tip_link_indices->at(0) == 1);
@@ -64,45 +64,45 @@ TEST_CASE("pick_ik::get_link_indices") {
     }
 
     SECTION("no joints") {
-        auto const tip_link_indices = pick_ik::get_link_indices(robot_model, {});
+        auto const tip_link_indices = armstrong_pick_ik::get_link_indices(robot_model, {});
         REQUIRE(tip_link_indices.has_value());
         CHECK(tip_link_indices->size() == 0);
     }
 
     SECTION("invalid joint") {
-        auto const tip_link_indices = pick_ik::get_link_indices(robot_model, {"c"});
+        auto const tip_link_indices = armstrong_pick_ik::get_link_indices(robot_model, {"c"});
         REQUIRE(tip_link_indices.has_value() == false);
     }
 
     SECTION("base joint") {
-        auto const tip_link_indices = pick_ik::get_link_indices(robot_model, {"base"});
+        auto const tip_link_indices = armstrong_pick_ik::get_link_indices(robot_model, {"base"});
         REQUIRE(tip_link_indices.has_value());
         CHECK(tip_link_indices->size() == 1);
         CHECK(tip_link_indices->at(0) == 0);
     }
 }
 
-TEST_CASE("pick_ik::Robot::from -- Simple RR Model") {
+TEST_CASE("armstrong_pick_ik::Robot::from -- Simple RR Model") {
     auto const robot_model = make_rr_model();
     auto* const jmg = robot_model->getJointModelGroup("group");
     auto const tip_link_indices =
-        pick_ik::get_link_indices(robot_model, {"ee"})
+        armstrong_pick_ik::get_link_indices(robot_model, {"ee"})
             .or_else([](auto const& error) { throw std::invalid_argument(error); })
             .value();
-    auto const robot = pick_ik::Robot::from(robot_model, jmg, tip_link_indices);
+    auto const robot = armstrong_pick_ik::Robot::from(robot_model, jmg, tip_link_indices);
 
     SECTION("RR robot has two joints") { CHECK(robot.variables.size() == 2); }
 }
 
-TEST_CASE("pick_ik::Robot::from -- Panda Model") {
+TEST_CASE("armstrong_pick_ik::Robot::from -- Panda Model") {
     using moveit::core::loadTestingRobotModel;
     auto const robot_model = loadTestingRobotModel("panda");
     auto* const jmg = robot_model->getJointModelGroup("panda_arm");
     auto const tip_link_indices =
-        pick_ik::get_link_indices(robot_model, {"panda_hand"})
+        armstrong_pick_ik::get_link_indices(robot_model, {"panda_hand"})
             .or_else([](auto const& error) { throw std::invalid_argument(error); })
             .value();
-    auto const robot = pick_ik::Robot::from(robot_model, jmg, tip_link_indices);
+    auto const robot = armstrong_pick_ik::Robot::from(robot_model, jmg, tip_link_indices);
 
     SECTION("Panda has seven joints") { CHECK(robot.variables.size() == 7); }
 }

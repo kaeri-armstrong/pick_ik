@@ -48,7 +48,7 @@ FROM system AS ci
 
 # install dependencies of this project
 WORKDIR /root/ws
-COPY ../ ./src/pick_ik
+COPY ../ ./src/armstrong_pick_ik
 RUN --mount=type=cache,target=/var/cache/apt,id=apt \
     . /opt/ros/$ROS_DISTRO/setup.sh \
     && rosdep update && apt-get update \
