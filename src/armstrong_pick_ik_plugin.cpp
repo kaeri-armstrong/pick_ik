@@ -13,6 +13,7 @@
 #include <moveit/robot_state/robot_state.h>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 namespace armstrong_pick_ik {
 namespace {
@@ -126,6 +127,12 @@ bool PickIKPlugin::searchPositionIK(std::vector<geometry_msgs::msg::Pose> const&
     if (params.minimal_displacement_weight > 0.0) {
         goals.push_back(Goal{make_minimal_displacement_cost_fn(robot_, ik_seed_state),
                              params.minimal_displacement_weight});
+        }
+    if (!std::all_of(params.joint_weight.begin(),
+                     params.joint_weight.end(),
+                     [](auto const& weight) { return weight == 0.0; })) {
+        goals.push_back(Goal{make_joint_weight_cost_fn(robot_, ik_seed_state, params.joint_weight),
+                             1.0});
     }
     if (cost_function) {
         for (auto const& pose : ik_poses) {

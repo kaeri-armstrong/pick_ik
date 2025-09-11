@@ -129,6 +129,14 @@ armstrong_pick_ik:
       gt_eq<>: [0.0],
     },
   }
+  joint_weight: {
+    type: double_array,
+    default_value: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
+    description: "List of weights for each joint. The length of the list must match the number of joints in the robot. If empty, all joints are weighted equally.",
+    validation: {
+      element_bounds<>: [0.0, 1.0],
+    },
+  }
   stop_optimization_on_valid_solution : {
     type: bool,
     default_value: true,

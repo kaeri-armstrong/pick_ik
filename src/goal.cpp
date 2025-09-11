@@ -143,6 +143,24 @@ auto make_minimal_displacement_cost_fn(Robot robot, std::vector<double> initial_
     };
 }
 
+auto make_joint_weight_cost_fn(Robot robot, 
+                              std::vector<double> initial_guess,
+                              std::vector<double> joint_weights) -> CostFn {
+    return [=](std::vector<double> const& active_positions) -> double {
+        double sum = 0;
+        assert(active_positions.size() == initial_guess.size() &&
+               active_positions.size() == joint_weights.size());
+        
+        for (size_t i = 0; i < active_positions.size(); ++i) {
+            auto const guess = initial_guess[i];
+            auto const position = active_positions[i];
+            auto const weight = joint_weights[i];
+            sum += std::pow((position - guess) * weight, 2);
+        }
+        return sum;
+    };
+}
+
 auto make_ik_cost_fn(geometry_msgs::msg::Pose pose,
                      kinematics::KinematicsBase::IKCostFn cost_fn,
                      std::shared_ptr<moveit::core::RobotModel const> robot_model,
